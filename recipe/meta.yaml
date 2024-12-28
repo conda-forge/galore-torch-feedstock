@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/galore-torch-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/galore-torch-{{ version }}.tar.gz
   sha256: 469f793a0ae1c29cc42d9ba4550fed66983936cb50eccb46b06fbd16cfde40b9
   patches:
     - requirements.patch
@@ -14,14 +14,15 @@ source:
 build:
   noarch: python
   script: ls && {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 1
+  number: 2
 
 requirements:
   host:
-    - python >=3.7
+    - python {{ python_min }}
     - pip
+    - setuptools
   run:
-    - python >=3.7
+    - python >={{ python_min }}
     - pytorch
     - transformers
     - bitsandbytes
@@ -33,6 +34,7 @@ test:
     - pip check
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   home: https://github.com/jiaweizzhao/GaLore
